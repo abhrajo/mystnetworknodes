@@ -3,7 +3,7 @@
  Simple Node finding Site that Displays "NodeID", "IP Type", "Quality", "Latency", "Bandwidth". <br/>
  Proxy is used to provide best result.
  
- Feel Free to Modify the Content (obviously, without breaking it 😛)
+ Feel Free to Modify the Content via the Development branch
  
  ------------------------------------------------------------------
  <b>Screenshot:</b><br/>
