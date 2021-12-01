@@ -7,7 +7,7 @@ body {
     box-sizing: border-box;
 }
 h1 {
-    color: #eee;
+    color: #ffffff;
     margin-bottom: 30px;
 }
 
@@ -47,8 +47,11 @@ h1 {
     position: relative;
 }
 
-input::placeholder {
+::placeholder {
   font-size: 15px;
   
 }
 
+.loader {
+	color: #ffffff;	
+}

@@ -3,6 +3,11 @@ const searchBar = document.getElementById('searchBar');
 
 let nodeIds = [];
 
+let load = `<div class="loader">
+				<img src="asset/loader.gif"><h3>Loading Nodes List..</h3></img>
+			</div>`;
+document.getElementById('nodesList').innerHTML = load;
+
 
 searchBar.addEventListener('keyup', (e) => {
     const searchString = e.target.value.toLowerCase();
