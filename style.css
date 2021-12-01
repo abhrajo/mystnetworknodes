@@ -10,6 +10,10 @@ h1 {
     color: #ffffff;
     margin-bottom: 30px;
 }
+h4 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
 
 .container {
     padding: 40px;
@@ -54,4 +58,24 @@ h1 {
 
 .loader {
 	color: #ffffff;	
+}
+
+/* unvisited link */
+a:link {
+  color: white;
+}
+
+/* visited link */
+a:visited {
+  color: orange;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: blue;
 }
