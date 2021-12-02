@@ -15,6 +15,7 @@ searchBar.addEventListener('keyup', (e) => {
     const filteredNodes = nodeIds.filter((nodes) => {
         return (
             nodes.provider_id.toLowerCase().includes(searchString)
+			
         );
     });
     displayNodes(filteredNodes);
@@ -40,11 +41,20 @@ const displayNodes = (nodes) => {
         .map((nodes) => {
             return `
             <li class="nodes">
+<<<<<<< Updated upstream
                 <p><b>${nodes.provider_id}</b></p>
 				<p><b>IP Type:</b> ${nodes.location.ip_type}</p>
 				<p><b>Quality:</b> ${nodes.quality.quality}</p>
 				<p><b>Latency:</b> ${nodes.quality.latency}</p>
 				<p><b>Bandwidth:</b> ${nodes.quality.bandwidth}</p>
+=======
+                <h4>${nodes.provider_id}</h4>
+				<p><b>IP Type: </b> ${nodes.location.ip_type}</p>
+				<p><b>Country: </b> ${nodes.location.country}</p>
+				<p><b>Quality: </b> ${nodes.quality.quality}</p>
+				<p><b>Latency: </b> ${nodes.quality.latency}</p>
+				<p><b>Bandwidth: </b> ${nodes.quality.bandwidth}</p>
+>>>>>>> Stashed changes
                 
             </li>
         `;
