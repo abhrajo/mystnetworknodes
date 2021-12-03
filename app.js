@@ -3,8 +3,9 @@ const searchBar = document.getElementById('searchBar');
 
 let nodeIds = [];
 
-let load = `<div class="loader">
-				<img src="asset/loader.gif"><h3>Loading Nodes List..</h3></img>
+let load = `<div align="center">
+				<div align="center" class="loader"></div>
+				<h2 id="fetching">Fetching Nodes List</h2>
 			</div>`;
 document.getElementById('nodesList').innerHTML = load;
 
@@ -30,7 +31,6 @@ const loadNodes = async () => {
 					});
 		
         nodeIds = await res.json();
-		console.log(nodeIds);
         displayNodes(nodeIds);
     } catch (err) {
         console.error(err);
@@ -44,8 +44,8 @@ const displayNodes = (nodes) => {
             <li class="nodes">
                 <h4>${nodes.provider_id}</h4>
 				<p><b>IP Type: </b> ${nodes.location.ip_type}</p>
-				<p><b>Country: </b> ${nodes.location.country}</p>
-				<p><b>Quality: </b> ${nodes.quality.quality}</p>
+				<p><b>Country: </b>${nodes.location.country} <a id="iso" href="https://www.iso.org/obp/ui/#iso:code:3166:${nodes.location.country}">  <img id="flags" src="asset/flags/${nodes.location.country}.svg" alt="${nodes.location.country} flag"></img></a></p>
+				<p><b>Quality: </b> ${nodes.quality.quality} ( <1.5::Low, 1.5-2.5::Medium, >2.5::High )</p>
 				<p><b>Latency: </b> ${nodes.quality.latency}</p>
 				<p><b>Bandwidth: </b> ${nodes.quality.bandwidth}</p>
                 
