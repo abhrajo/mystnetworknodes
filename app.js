@@ -44,7 +44,7 @@ const displayNodes = (nodes) => {
             <li class="nodes">
                 <h4>${nodes.provider_id}</h4>
 				<p><b>IP Type: </b> ${nodes.location.ip_type}</p>
-				<p><b>Country: </b>${nodes.location.country} <a id="iso" href="https://www.iso.org/obp/ui/#iso:code:3166:${nodes.location.country}"> <img id="flags" src="asset/flags-png/${nodes.location.country}.png" alt="${nodes.location.country} flag"></img></a></p>
+				<p type="image/text"><b>Country: </b>${nodes.location.country} <a id="iso" href="https://www.iso.org/obp/ui/#iso:code:3166:${nodes.location.country}"> <img id="flags" src="asset/flags-png/${nodes.location.country}.png" alt="${nodes.location.country} flag"></img></a></p>
 				<p><b>Quality: </b> ${nodes.quality.quality} ( <1.5::Low, 1.5-2.5::Medium, >2.5::High )</p>
 				<p><b>Latency: </b> ${nodes.quality.latency}</p>
 				<p><b>Bandwidth: </b> ${nodes.quality.bandwidth}</p>
