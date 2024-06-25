@@ -24,7 +24,7 @@ searchBar.addEventListener('keyup', (e) => {
 
 const loadNodes = async () => {
     try {
-        const res = await fetch('https://protected-island-29616.herokuapp.com/https://discovery.mysterium.network/api/v3/proposals', {
+        const res = await fetch('https://cors-anywhere-qpb6.onrender.com/https://discovery.mysterium.network/api/v3/proposals', {
 		headers: {
 			'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate'
 				}
@@ -44,10 +44,10 @@ const displayNodes = (nodes) => {
             <li class="nodes">
                 <h4>${nodes.provider_id}</h4>
 				<p><b>IP Type: </b> ${nodes.location.ip_type}</p>
-				<p type="image/text"><b>Country: </b>${nodes.location.country} <a id="iso" href="https://www.iso.org/obp/ui/#iso:code:3166:${nodes.location.country}"> <img id="flags" src="asset/flags/${nodes.location.country}.png" alt="${nodes.location.country} flag"></img></a></p>
-				<p><b>Quality: </b> ${nodes.quality.quality} ( <1.5::Low, 1.5-2.5::Medium, >2.5::High )</p>
-				<p><b>Latency: </b> ${nodes.quality.latency}</p>
-				<p><b>Bandwidth: </b> ${nodes.quality.bandwidth}</p>
+				<p type="image/text"><b>Country: </b>${nodes.location.country} <img id="flags" src="asset/flags/${nodes.location.country}.png" alt="${nodes.location.country} flag"></img></a></p>
+                <p><b>City: </b> ${nodes.location.city} (${nodes.location.isp})</p>
+				<p><b>Quality: </b> ${nodes.quality.quality}/3&nbsp;&nbsp; <b>Latency: </b> ${nodes.quality.latency}</p>
+				<p><b>Bandwidth: </b> ${nodes.quality.bandwidth}&nbsp;&nbsp; <b>Uptime: </b> ${nodes.quality.uptime}</p>
                 
             </li>
         `;
