@@ -1,8 +1,7 @@
 body {
 	font-family: 'Outfit', sans-serif;
-  background: linear-gradient(#6d1dc2, #b133c7);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  background: linear-gradient(60deg, #22074C, #EA339A);
+  background-size: 250% 100%;
 }
 
 @keyframes gradient {
@@ -30,6 +29,8 @@ h1 {
 	word-spacing: 5px;
 	
 }
+
+
 .notice {
   color: #ffffff;
   margin-bottom: 20px;
@@ -110,7 +111,6 @@ select {
   width: 100%;
   height: 50px;
   border-radius: 50px;
-	box-shadow: 0 0 5px white;
   border: 1px solid #eaeaea;
   padding: 5px 10px;
   font-size: 12px;
@@ -201,4 +201,51 @@ a:active {
 
 .green {
   background-color: green;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #4a148c;
+}
+
+.footer p {
+  color: white;
+}
+
+.footer h2 {
+  background: -webkit-linear-gradient(lightgrey, orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.footer div {
+  display: inline-block;
+}
+
+.footer img {
+  width: 20px;
+  height: 20px;
 }
