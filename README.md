@@ -1,4 +1,4 @@
-# Mysteriun Network Nodes Finder
+# Mysteriun Network Nodes Finder/Discovery
  
  Simple Node finding Site that Displays "NodeID", "IP Type", "Quality", "Latency", "Bandwidth". <br/>
  Proxy is used to provide best result.
@@ -20,5 +20,8 @@
 -----------------------------------------------
 Site Loads slow due to heavy data fetch. Please use the second website if the Github Page doesnt load<br/>
 <b>Links:</b> https://abhrajo.github.io/mystnetworknodes/ <br/>
-<b>Alt Link:</b> http://mystnetwork.epizy.com/
+<b>Alt Link:</b> https://mystnetwork.epizy.com/
+
+Development Branch URL <br/>
+https://dev.mystnetwork.epizy.com/
  
