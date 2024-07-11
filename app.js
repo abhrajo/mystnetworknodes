@@ -5,20 +5,31 @@ const countryFilter = document.getElementById('countryFilter');
 const cityFilter = document.getElementById('cityFilter');
 const ispFilter = document.getElementById('ispFilter');
 const clearFiltersButton = document.getElementById('clearFiltersButton');
+const prevPageButton = document.getElementById('prevPageButton');
+const nextPageButton = document.getElementById('nextPageButton');
 
 let nodeIds = [];
+let currentPage = 1;
+const nodesPerPage = 30;
 
-// Initial loading message
 let load = `<div align="center">
                 <div align="center" class="loader"></div>
                 <h2 id="fetching">Fetching Nodes List</h2>
             </div>`;
 nodesList.innerHTML = load;
 
-// Function to load nodes data from API
+const proxyUrl = 'https://cors-anywhere-qpb6.onrender.com/';
+const path1 = 'https://discovery.mysterium.network/api/v3/proposals';
+const path2 = 'https://discovery-ui.mysterium.network/api/v3/proposals';
+
+const choosePath = () => {
+    return Math.random() > 0.5 ? path1 : path2;
+};
+
 const loadNodes = async () => {
     try {
-        const res = await fetch('https://cors-anywhere-qpb6.onrender.com/https://discovery.mysterium.network/api/v3/proposals', {
+        const chosenPath = choosePath();
+        const res = await fetch(`${proxyUrl}${chosenPath}`, {
             headers: {
                 'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
                 'accept': 'application/json'
@@ -27,34 +38,30 @@ const loadNodes = async () => {
 
         nodeIds = await res.json();
 
-        // Fetch country names for each node
         await fetchCountryNames(nodeIds);
 
-        // Populate filter dropdowns with unique values
         populateFilterDropdowns(nodeIds);
 
-        // Display nodes initially
         displayNodes(nodeIds);
     } catch (err) {
         console.error(err);
     }
 };
 
-// Function to fetch country names for each node
 const fetchCountryNames = async (nodes) => {
     const countryPromises = nodes.map(async (node) => {
         const countryCode = node.location.country;
-        let countryName = localStorage.getItem(countryCode); // Check local storage first
+        let countryName = localStorage.getItem(countryCode);
 
         if (!countryName) {
             try {
                 const res = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/countries-codes/records?select=label_en&limit=1&refine=iso2_code:${countryCode}`);
                 const data = await res.json();
                 countryName = data.results.length > 0 ? data.results[0].label_en : countryCode;
-                localStorage.setItem(countryCode, countryName); // Store in local storage for future use
+                localStorage.setItem(countryCode, countryName);
             } catch (err) {
                 console.error(`Failed to fetch country name for ${countryCode}`, err);
-                countryName = countryCode; // fallback to country code
+                countryName = countryCode;
             }
         }
 
@@ -64,10 +71,9 @@ const fetchCountryNames = async (nodes) => {
     await Promise.all(countryPromises);
 };
 
-// Function to populate filter dropdowns with unique values
 const populateFilterDropdowns = (nodes) => {
     const ipTypes = [...new Set(nodes.map(node => node.location.ip_type))];
-    populateDropdown(ipTypeFilter, ipTypes);
+    populateDropdown(ipTypeFilter, ipTypes.map(ipType => ipType.charAt(0).toUpperCase() + ipType.slice(1)));
 
     const countries = [...new Set(nodes.map(node => node.location.country_name))];
     populateDropdown(countryFilter, countries);
@@ -79,15 +85,13 @@ const populateFilterDropdowns = (nodes) => {
     populateDropdown(ispFilter, isps);
 };
 
-// Function to populate a dropdown with options
 const populateDropdown = (dropdown, options) => {
     dropdown.innerHTML = '<option value="">All</option>';
-    options.forEach(option => {
+    options.sort().forEach(option => {
         dropdown.innerHTML += `<option value="${option}">${option}</option>`;
     });
 };
 
-// Function to filter nodes based on search and filters
 const filterNodes = async () => {
     showFilteringLoader();
 
@@ -113,9 +117,8 @@ const filterNodes = async () => {
     await displayFilteredNodes(filteredNodes);
 };
 
-// Function to display filtered nodes
 const displayFilteredNodes = async (filteredNodes) => {
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay for demonstration
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (filteredNodes.length === 0) {
         showNoSearchResult();
@@ -124,7 +127,6 @@ const displayFilteredNodes = async (filteredNodes) => {
     }
 };
 
-// Function to determine color dot based on quality value
 const getColorDot = (quality) => {
     if (quality < 1.5) {
         return '<span class="dot red"></span>';
@@ -135,24 +137,51 @@ const getColorDot = (quality) => {
     }
 };
 
-// Function to display nodes in the UI
 const displayNodes = (nodes) => {
-    const htmlString = nodes
+    const startIndex = (currentPage - 1) * nodesPerPage;
+    const endIndex = startIndex + nodesPerPage;
+    const currentNodes = nodes.slice(startIndex, endIndex);
+
+    const htmlString = currentNodes
         .map((node) => {
             const colorDot = getColorDot(node.quality.quality);
+            const providerId = (node.location.ip_type.toLowerCase() === 'government' || node.location.ip_type.toLowerCase() === 'education')
+                ? `masked_uuid_${uuid.v4()}`
+                : node.provider_id;
+            const ispName = (node.location.ip_type.toLowerCase() === 'government' || node.location.ip_type.toLowerCase() === 'education')
+                ? '-ISP Hidden-'
+                : node.location.isp;
+            const ipType = node.location.ip_type.charAt(0).toUpperCase() + node.location.ip_type.slice(1);
             return `
             <li class="nodes">
-                <h4>${node.provider_id}</h4>
-                <p><b>IP Type: </b> ${node.location.ip_type}</p>
+                <h4>${providerId}</h4>
+                <p><b>IP Type: </b> ${ipType}</p>
                 <p type="image/text"><b>Country: </b>${node.location.country_name} <img id="flags" src="asset/flags/${node.location.country}.png" alt="${node.location.country} flag"></p>
-                <p><b>City: </b> ${node.location.city} (${node.location.isp})</p>
-                <p><b>Quality: </b> ${colorDot} ${node.quality.quality}/3&nbsp;&nbsp; <b>Latency: </b> ${node.quality.latency}</p>
+                <p><b>City: </b> ${node.location.city} (${ispName})</p>
+                <p><b>Quality: </b> ${colorDot} ${node.quality.quality.toFixed(1)}/3&nbsp;&nbsp; <b>Latency: </b> ${node.quality.latency}</p>
                 <p><b>Bandwidth: </b> ${node.quality.bandwidth}&nbsp;&nbsp; <b>Uptime: </b> ${node.quality.uptime}</p>
             </li>
             `;
         })
         .join('');
     nodesList.innerHTML = htmlString;
+
+    updatePaginationButtons(nodes.length);
+};
+
+const updatePaginationButtons = (totalNodes) => {
+    const totalPages = Math.ceil(totalNodes / nodesPerPage);
+    prevPageButton.disabled = currentPage === 1;
+    nextPageButton.disabled = currentPage === totalPages || totalNodes === 0;
+};
+
+const clearFilters = () => {
+    searchBar.value = '';
+    ipTypeFilter.value = '';
+    countryFilter.value = '';
+    cityFilter.value = '';
+    ispFilter.value = '';
+    filterNodes();
 };
 
 const showFilteringLoader = () => {
@@ -165,27 +194,56 @@ const showFilteringLoader = () => {
 
 const showNoSearchResult = () => {
     const noResult = `<div align="center">
-                <h2 id="fetching">No Search Result. Please Check Search Query or Visit <a href="https://discovery-ui.mysterium.network">Discovery UI</a></h2>
+                <h2 id="fetchingError">No Search Result. Please Check Search Query or Visit <a href="https://discovery-ui.mysterium.network">Discovery UI</a></h2>
+                <h2 id="fetchingError">API_NULL_RESPONSE_ERROR: Failed to fetch data from the API.</h2>
+
             </div>`;
     nodesList.innerHTML = noResult;
 };
 
-const clearFilters = () => {
-    searchBar.value = '';
-    ipTypeFilter.value = '';
-    countryFilter.value = '';
-    cityFilter.value = '';
-    ispFilter.value = '';
+searchBar.addEventListener('keyup', () => {
+    currentPage = 1; 
     filterNodes();
-};
+});
 
-// Event listeners for search and filter changes
-searchBar.addEventListener('keyup', filterNodes);
-ipTypeFilter.addEventListener('change', filterNodes);
-countryFilter.addEventListener('change', filterNodes);
-cityFilter.addEventListener('change', filterNodes);
-ispFilter.addEventListener('change', filterNodes);
-clearFiltersButton.addEventListener('click', clearFilters);
+ipTypeFilter.addEventListener('change', () => {
+    currentPage = 1; 
+    filterNodes();
+});
 
-// Load initial nodes data
+countryFilter.addEventListener('change', () => {
+    currentPage = 1; 
+    filterNodes();
+});
+
+cityFilter.addEventListener('change', () => {
+    currentPage = 1; 
+    filterNodes();
+});
+
+ispFilter.addEventListener('change', () => {
+    currentPage = 1; 
+    filterNodes();
+});
+
+clearFiltersButton.addEventListener('click', () => {
+    currentPage = 1; 
+    clearFilters();
+});
+
+prevPageButton.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        displayNodes(nodeIds);
+    }
+});
+
+nextPageButton.addEventListener('click', () => {
+    const totalPages = Math.ceil(nodeIds.length / nodesPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayNodes(nodeIds);
+    }
+});
+
 loadNodes();

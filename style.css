@@ -1,20 +1,7 @@
 body {
 	font-family: 'Outfit', sans-serif;
-  background: linear-gradient(#6d1dc2, #b133c7);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+  background: linear-gradient(60deg, #22074C, #EA339A);
+  background-size: 250% 100%;
 }
 
 * {
@@ -30,6 +17,8 @@ h1 {
 	word-spacing: 5px;
 	
 }
+
+
 .notice {
   color: #ffffff;
   margin-bottom: 20px;
@@ -109,8 +98,7 @@ select {
 #searchBar {
   width: 100%;
   height: 50px;
-  border-radius: 50px;
-	box-shadow: 0 0 5px white;
+  border-radius: 10px;
   border: 1px solid #eaeaea;
   padding: 5px 10px;
   font-size: 12px;
@@ -127,18 +115,59 @@ select {
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #ffa500;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  animation: spin 2s linear infinite;
+  display: inline-block;
+  position: relative;
+  border: 3px solid;
+  border-color: #FFF #FFF transparent transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.loader::after,
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid;
+  border-color: transparent transparent #FF3D00 #FF3D00;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotationBack 0.5s linear infinite;
+  transform-origin: center center;
 }
+.loader::before {
+  width: 32px;
+  height: 32px;
+  border-color: #FFF #FFF transparent transparent;
+  animation: rotation 1.5s linear infinite;
+}
+    
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+    
 
 a:link {
   color: blue
@@ -178,6 +207,11 @@ a:active {
 	
 }
 
+#fetchingError {
+  color: white;
+  font-size: 17px;
+}
+
 #flags {
 	width: 35px;
 	height: 25px;
@@ -201,4 +235,49 @@ a:active {
 
 .green {
   background-color: green;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #4a148c;
+}
+
+.footer p {
+  color: white;
+}
+
+.footer h3 {
+  color: red;
+  margin-bottom: 20px;
+}
+
+.footer div {
+  display: inline-block;
+}
+
+.footer img {
+  width: 20px;
+  height: 20px;
 }
