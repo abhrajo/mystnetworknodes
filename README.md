@@ -23,4 +23,3 @@ Site Loads slow due to heavy data fetch<br/>
 
 Development Branch URL<br/>
 http://dev.mystnetwork.epizy.com/
- 
