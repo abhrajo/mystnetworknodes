@@ -9,9 +9,13 @@
  <b>Screenshot:</b><br/>
  ![image](https://user-images.githubusercontent.com/25876788/143791328-008ec700-e0ca-4269-b7e1-4c51e10921bb.png)
 
- Version 2: 27th June 2024 - 
+ Version 2: 
+ 27th June 2024 - 
  1) Added ability to use Search Filters
  2) Added Pagination for faster load
+
+11th July 2024 -
+1) Fixed Pagination Issue not resetting
 
 ![image](https://github.com/abhrajo/mystnetworknodes/assets/25876788/0ba8a0d8-8e84-48e5-9d10-49586e25ef47)
 
