@@ -1,4 +1,4 @@
-# Mysteriun Network Nodes Finder
+# Mysteriun Network Nodes Discovery/Finder
  
  Simple Node finding Site that Displays "NodeID", "IP Type", "Quality", "Latency", "Bandwidth". <br/>
  Proxy is used to provide best result.
