@@ -2,6 +2,7 @@ body {
 	font-family: 'Outfit', sans-serif;
   background: linear-gradient(60deg, #22074C, #EA339A);
   background-size: 350% 100%;
+  background-attachment: fixed;
 }
 
 * {
@@ -29,7 +30,6 @@ h1 {
 	word-spacing: 4px;
   }
 }
-
 
 .notice {
   color: red;
@@ -112,8 +112,8 @@ select {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  outline: none; /* Removes the default focus outline */
-  cursor: pointer; /* Shows a pointer cursor on hover */
+  outline: none;
+  cursor: pointer;
   width: 200px;
   background-color: #f2f2f2;
 }
