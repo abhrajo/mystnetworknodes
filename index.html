@@ -15,6 +15,7 @@
     <div class="container">
         <h1>Mysterium Network Nodes Discovery</h1>
         <h3 class="notice">Not Affiliated to Mysterium Network. Visit here: <a href="https://discovery-ui.mysterium.network/api/v3/proposals">Discovery API</a></h3>
+        <h3 class="mask">Education & Government Nodes Are Masked</h3>
         
         <div class="filterSection">
             <div class="filter-dropdown">
@@ -49,24 +50,31 @@
         </div>
 
         <div id="searchWrapper">
-            <input type="text" name="searchBar" id="searchBar" placeholder="Search Node ID, Country, City, ISP"/>
+            <input type="text" name="searchBar" id="searchBar" placeholder="Search Node ID"/>
         </div>
 
         <div class="pagination">
-            <button id="prevPageButton" disabled>&lt; Prev</button>
-            <button id="nextPageButton">Next &gt;</button>
+            <button id="prevPageButton" hidden disabled>&lt; Prev</button>
+            <button id="nextPageButton" hidden>Next &gt;</button>
         </div>
 
         <ul id="nodesList"></ul>
 
+        <div class="pagination">
+            <button id="prevPageButton2" hidden disabled>&lt; Prev</button>
+            <button id="nextPageButton2" hidden>Next &gt;</button>
+        </div>
+
         <footer class="footer">
             <div>
-                <h3>Education & Government Nodes Are Masked</h3>
-                <a href="https://github.com/abhrajo/mystnetworknodes" target="_blank">
-                    <img id="flags" src="asset/logos/github-mark-white.png" alt="GitHub">
+                <a href="https://www.mysterium.network/">
+                    <img id="logos" src="asset/logos/mysterium_network.png" alt="Mysterium Network">
                 </a>
-                <a href="https://www.mysterium.network/" target="_blank">
-                    <img id="flags" src="asset/logos/mysterium_network.png" alt="Mysterium Network">
+                <a href="https://github.com/abhrajo/mystnetworknodes">
+                    <img id="logos" src="asset/logos/github-mark-white.png" alt="GitHub">
+                </a>
+                <a href="https://www.buymeacoffee.com/ajduttarayz">
+                    <img id="logos" src="asset/logos/bmc-red-button.png" alt="Buy Me A Coffee">
                 </a>
             </div>
         </footer>

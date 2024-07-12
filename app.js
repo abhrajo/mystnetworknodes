@@ -7,10 +7,22 @@ const ispFilter = document.getElementById('ispFilter');
 const clearFiltersButton = document.getElementById('clearFiltersButton');
 const prevPageButton = document.getElementById('prevPageButton');
 const nextPageButton = document.getElementById('nextPageButton');
+const prevPageButton2 = document.getElementById('prevPageButton2');
+const nextPageButton2 = document.getElementById('nextPageButton2');
 
 let nodeIds = [];
 let currentPage = 1;
-const nodesPerPage = 30;
+let nodesPerPage = 32;
+
+const setNodesPerPage = () => {
+    if (window.innerWidth <= 600) { // mobile screen width threshold
+        nodesPerPage = 10;
+    } else {
+        nodesPerPage = 32;
+    }
+};
+
+setNodesPerPage();
 
 let load = `<div align="center">
                 <div align="center" class="loader"></div>
@@ -96,6 +108,11 @@ const filterNodes = async () => {
     showFilteringLoader();
 
     const searchString = searchBar.value.toLowerCase();
+    if (searchString && !searchString.startsWith('0x')) {
+        showInvalidNodeIdError();
+        return;
+    }
+
     const selectedIpType = ipTypeFilter.value.toLowerCase();
     const selectedCountry = countryFilter.value.toLowerCase();
     const selectedCity = cityFilter.value.toLowerCase();
@@ -103,10 +120,7 @@ const filterNodes = async () => {
 
     let filteredNodes = nodeIds.filter((node) => {
         return (
-            (node.provider_id.toLowerCase().includes(searchString) ||
-                node.location.city.toLowerCase().includes(searchString) ||
-                node.location.isp.toLowerCase().includes(searchString) ||
-                node.location.ip_type.toLowerCase().includes(searchString)) &&
+            (node.provider_id.toLowerCase().includes(searchString)) &&
             (selectedIpType === '' || node.location.ip_type.toLowerCase() === selectedIpType) &&
             (selectedCountry === '' || node.location.country_name.toLowerCase() === selectedCountry) &&
             (selectedCity === '' || node.location.city.toLowerCase() === selectedCity) &&
@@ -137,6 +151,9 @@ const getColorDot = (quality) => {
     }
 };
 
+setNodesPerPage();
+window.addEventListener('resize', setNodesPerPage);
+
 const displayNodes = (nodes) => {
     const startIndex = (currentPage - 1) * nodesPerPage;
     const endIndex = startIndex + nodesPerPage;
@@ -152,6 +169,7 @@ const displayNodes = (nodes) => {
                 ? '-ISP Hidden-'
                 : node.location.isp;
             const ipType = node.location.ip_type.charAt(0).toUpperCase() + node.location.ip_type.slice(1);
+            //const discoveryURL = choosePath();
             return `
             <li class="nodes">
                 <h4>${providerId}</h4>
@@ -171,8 +189,21 @@ const displayNodes = (nodes) => {
 
 const updatePaginationButtons = (totalNodes) => {
     const totalPages = Math.ceil(totalNodes / nodesPerPage);
+    if (totalNodes > nodesPerPage) {
+        prevPageButton.hidden = false;
+        nextPageButton.hidden = false;
+        prevPageButton2.hidden = false;
+        nextPageButton2.hidden = false;
+    } else {
+        prevPageButton.hidden = true;
+        nextPageButton.hidden = true;
+        prevPageButton2.hidden = true;
+        nextPageButton2.hidden = true;
+    }
     prevPageButton.disabled = currentPage === 1;
     nextPageButton.disabled = currentPage === totalPages || totalNodes === 0;
+    prevPageButton2.disabled = currentPage === 1;
+    nextPageButton2.disabled = currentPage === totalPages || totalNodes === 0;
 };
 
 const clearFilters = () => {
@@ -194,11 +225,19 @@ const showFilteringLoader = () => {
 
 const showNoSearchResult = () => {
     const noResult = `<div align="center">
-                <h2 id="fetchingError">No Search Result. Please Check Search Query or Visit <a href="https://discovery-ui.mysterium.network">Discovery UI</a></h2>
-                <h2 id="fetchingError">API_NULL_RESPONSE_ERROR: Failed to fetch data from the API.</h2>
+                <h2 id="fetchingErrorMessage">No Search Result. Please Check Search Query or Visit <a href="https://discovery-ui.mysterium.network">Discovery UI</a></h2>
+                <h2 id="fetchingErrorCode">(API_NULL_RESPONSE_ERROR: Failed to fetch data from the API)</h2>
 
             </div>`;
     nodesList.innerHTML = noResult;
+};
+
+const showInvalidNodeIdError = () => {
+    const invalidIdError = `<div align="center">
+                <h2 id="invalidIdError">Invalid Search: Node ID must begin with "0x"</h2>
+                <h2 id="invalidIdError2">Please ensure your Node ID starts with the correct prefix</h2>
+            </div>`;
+    nodesList.innerHTML = invalidIdError;
 };
 
 searchBar.addEventListener('keyup', () => {
@@ -239,6 +278,21 @@ prevPageButton.addEventListener('click', () => {
 });
 
 nextPageButton.addEventListener('click', () => {
+    const totalPages = Math.ceil(nodeIds.length / nodesPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayNodes(nodeIds);
+    }
+});
+
+prevPageButton2.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        displayNodes(nodeIds);
+    }
+});
+
+nextPageButton2.addEventListener('click', () => {
     const totalPages = Math.ceil(nodeIds.length / nodesPerPage);
     if (currentPage < totalPages) {
         currentPage++;
