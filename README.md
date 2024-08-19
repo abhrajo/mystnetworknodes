@@ -29,4 +29,5 @@
  <b>Alt Link 2:</b> http://mystnetwork.epizy.com/
 
  Development Branch URL<br/>
- http://dev.mystnetwork.epizy.com/
+ <b>Link: Automatically Updated</b> https://dev-mystnodesfinder.pages.dev/ <br/>
+ <b>Alt Link:</b> http://dev.mystnetwork.epizy.com/
