@@ -30,7 +30,7 @@ let load = `<div align="center">
             </div>`;
 nodesList.innerHTML = load;
 
-const proxyUrl = 'https://cors-bread-bb7c.ar-wk2695.workers.dev/?url=';
+const proxyUrl = 'https://cors-bread-bb7c.arwk.workers.dev/?url=';
 const path1 = 'https://discovery.mysterium.network/api/v3/proposals';
 const path2 = 'https://discovery-ui.mysterium.network/api/v3/proposals';
 
