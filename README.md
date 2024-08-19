@@ -7,23 +7,27 @@
  
  ------------------------------------------------------------------
  <b>Screenshot:</b><br/>
+
+ <b>Version 1: 2021</b>
+ 1) Nodes Search UI 
+
  ![image](https://user-images.githubusercontent.com/25876788/143791328-008ec700-e0ca-4269-b7e1-4c51e10921bb.png)
 
- Version 2: 
- 27th June 2024 - 
- 1) Added ability to use Search Filters
- 2) Added Pagination for faster load
+ <b>Version 2: 2024</b> 
 
-11th July 2024 -
-1) Fixed Pagination Issue not resetting
+ 1) Added ability to use Search Filters (27/06/2024)
+ 2) Added Pagination for Web & Mobile View (27/06/2024)
+ 3) Improved Mobile UI (12/07/2024)
 
-![image](https://github.com/abhrajo/mystnetworknodes/assets/25876788/0ba8a0d8-8e84-48e5-9d10-49586e25ef47)
+ ![image](https://github.com/abhrajo/mystnetworknodes/assets/25876788/0ba8a0d8-8e84-48e5-9d10-49586e25ef47)
 
 
------------------------------------------------
-Site Loads slow due to heavy data fetch<br/>
-<b>Links:</b> https://abhrajo.github.io/mystnetworknodes/ <br/>
-<b>Alt Link:</b> http://mystnetwork.epizy.com/
+ -----------------------------------------------
+ Site Loads slow due to heavy data fetch<br/>
+ <b>Links:</b> https://abhrajo.github.io/mystnetworknodes/ <br/>
+ <b>Alt Link 1:</b> https://mystnodesfinder.pages.dev/ <br/> 
+ <b>Alt Link 2:</b> http://mystnetwork.epizy.com/
 
-Development Branch URL<br/>
-http://dev.mystnetwork.epizy.com/
+ Development Branch URL<br/>
+ <b>Link: Automatically Updated</b> https://dev-mystnodesfinder.pages.dev/ <br/>
+ <b>Alt Link:</b> http://dev.mystnetwork.epizy.com/

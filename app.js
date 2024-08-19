@@ -15,7 +15,7 @@ let currentPage = 1;
 let nodesPerPage = 32;
 
 const setNodesPerPage = () => {
-    if (window.innerWidth <= 600) { // mobile screen width threshold
+    if (window.innerWidth <= 600) { 
         nodesPerPage = 10;
     } else {
         nodesPerPage = 32;
@@ -30,7 +30,7 @@ let load = `<div align="center">
             </div>`;
 nodesList.innerHTML = load;
 
-const proxyUrl = 'https://cors-anywhere-qpb6.onrender.com/';
+const proxyUrl = 'https://cors-bread-bb7c.arwk.workers.dev/?url=';
 const path1 = 'https://discovery.mysterium.network/api/v3/proposals';
 const path2 = 'https://discovery-ui.mysterium.network/api/v3/proposals';
 
@@ -106,6 +106,7 @@ const populateDropdown = (dropdown, options) => {
 
 const filterNodes = async () => {
     showFilteringLoader();
+    updateClearFiltersButtonState();
 
     const searchString = searchBar.value.toLowerCase();
     if (searchString && !searchString.startsWith('0x')) {
@@ -169,7 +170,6 @@ const displayNodes = (nodes) => {
                 ? '-ISP Hidden-'
                 : node.location.isp;
             const ipType = node.location.ip_type.charAt(0).toUpperCase() + node.location.ip_type.slice(1);
-            //const discoveryURL = choosePath();
             return `
             <li class="nodes">
                 <h4>${providerId}</h4>
@@ -212,7 +212,20 @@ const clearFilters = () => {
     countryFilter.value = '';
     cityFilter.value = '';
     ispFilter.value = '';
+    currentPage = 1; 
     filterNodes();
+    updateClearFiltersButtonState();
+};
+
+const updateClearFiltersButtonState = () => {
+    const isAnyFilterApplied = 
+        searchBar.value !== '' ||
+        ipTypeFilter.value !== '' ||
+        countryFilter.value !== '' ||
+        cityFilter.value !== '' ||
+        ispFilter.value !== '';
+
+    clearFiltersButton.disabled = !isAnyFilterApplied;
 };
 
 const showFilteringLoader = () => {
@@ -266,7 +279,6 @@ ispFilter.addEventListener('change', () => {
 });
 
 clearFiltersButton.addEventListener('click', () => {
-    currentPage = 1; 
     clearFilters();
 });
 
