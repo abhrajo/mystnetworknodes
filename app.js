@@ -9,6 +9,10 @@ const prevPageButton = document.getElementById('prevPageButton');
 const nextPageButton = document.getElementById('nextPageButton');
 const prevPageButton2 = document.getElementById('prevPageButton2');
 const nextPageButton2 = document.getElementById('nextPageButton2');
+const encodedProxyUrl = 'aHR0cHM6Ly9jb3JzLWJyZWFkLWJiN2MuYXJ3ay53b3JrZXJzLmRldi8/dXJsPQ==';
+const encodedPath1 = 'aHR0cHM6Ly9kaXNjb3ZlcnkubXlzdGVyaXVtLm5ldHdvcmsvYXBpL3YzL3Byb3Bvc2Fscw==';
+const encodedPath2 = 'aHR0cHM6Ly9kaXNjb3ZlcnktdWkubXlzdGVyaXVtLm5ldHdvcmsvYXBpL3YzL3Byb3Bvc2Fscw==';
+const encodedIsoUrl = 'aHR0cHM6Ly9wdWJsaWMub3BlbmRhdGFzb2Z0LmNvbS9hcGkvZXhwbG9yZS92Mi4xL2NhdGFsb2cvZGF0YXNldHMvY291bnRyaWVzLWNvZGVzL3JlY29yZHM/c2VsZWN0PWxhYmVsX2VuJmxpbWl0PTEmcmVmaW5lPWlzbzJfY29kZTo=';
 
 let nodeIds = [];
 let currentPage = 1;
@@ -30,9 +34,10 @@ let load = `<div align="center">
             </div>`;
 nodesList.innerHTML = load;
 
-const proxyUrl = 'https://cors-bread-bb7c.arwk.workers.dev/?url=';
-const path1 = 'https://discovery.mysterium.network/api/v3/proposals';
-const path2 = 'https://discovery-ui.mysterium.network/api/v3/proposals';
+const proxyUrl = atob(encodedProxyUrl);
+const path1 = atob(encodedPath1);
+const path2 = atob(encodedPath2);
+const isoUrl = atob(encodedIsoUrl);
 
 const choosePath = () => {
     return Math.random() > 0.5 ? path1 : path2;
@@ -67,7 +72,7 @@ const fetchCountryNames = async (nodes) => {
 
         if (!countryName) {
             try {
-                const res = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/countries-codes/records?select=label_en&limit=1&refine=iso2_code:${countryCode}`);
+                const res = await fetch(`${isoUrl}${countryCode}`);
                 const data = await res.json();
                 countryName = data.results.length > 0 ? data.results[0].label_en : countryCode;
                 localStorage.setItem(countryCode, countryName);
